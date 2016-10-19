@@ -1,0 +1,702 @@
+Created by PLY version 3.8 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> value
+Rule 1     value -> LEFT_BRACE RIGHT_BRACE
+Rule 2     value -> LEFT_BRACE members RIGHT_BRACE
+Rule 3     value -> LEFT_BRACK RIGHT_BRACK
+Rule 4     value -> LEFT_BRACK elements RIGHT_BRACK
+Rule 5     value -> BINDINGS EQUALS value
+Rule 6     value -> BINDINGS
+Rule 7     value -> ID LEFT_PAR RIGHT_PAR
+Rule 8     value -> ID LEFT_PAR elements RIGHT_PAR
+Rule 9     value -> TRUE
+Rule 10    value -> FALSE
+Rule 11    value -> NUM
+Rule 12    value -> STR
+Rule 13    value -> NULL
+Rule 14    value -> STR LEFT_PAR RIGHT_PAR
+Rule 15    value -> STR LEFT_PAR elements RIGHT_PAR
+Rule 16    members -> members COMMA STR COLON value
+Rule 17    members -> members COMMA ID COLON value
+Rule 18    members -> STR COLON value
+Rule 19    members -> ID COLON value
+Rule 20    elements -> value
+Rule 21    elements -> elements COMMA value
+
+Terminals, with rules where they appear
+
+BINDINGS             : 5 6
+COLON                : 16 17 18 19
+COMMA                : 16 17 21
+EQUALS               : 5
+FALSE                : 10
+ID                   : 7 8 17 19
+LEFT_BRACE           : 1 2
+LEFT_BRACK           : 3 4
+LEFT_PAR             : 7 8 14 15
+NULL                 : 13
+NUM                  : 11
+RIGHT_BRACE          : 1 2
+RIGHT_BRACK          : 3 4
+RIGHT_PAR            : 7 8 14 15
+STR                  : 12 14 15 16 18
+TRUE                 : 9
+error                : 
+
+Nonterminals, with rules where they appear
+
+elements             : 4 8 15 21
+members              : 2 16 17
+value                : 5 16 17 18 19 20 21 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    value                          shift and go to state 4
+
+state 1
+
+    (10) value -> FALSE .
+
+    RIGHT_BRACE     reduce using rule 10 (value -> FALSE .)
+    COMMA           reduce using rule 10 (value -> FALSE .)
+    RIGHT_BRACK     reduce using rule 10 (value -> FALSE .)
+    $end            reduce using rule 10 (value -> FALSE .)
+    RIGHT_PAR       reduce using rule 10 (value -> FALSE .)
+
+
+state 2
+
+    (12) value -> STR .
+    (14) value -> STR . LEFT_PAR RIGHT_PAR
+    (15) value -> STR . LEFT_PAR elements RIGHT_PAR
+
+    RIGHT_BRACE     reduce using rule 12 (value -> STR .)
+    COMMA           reduce using rule 12 (value -> STR .)
+    RIGHT_BRACK     reduce using rule 12 (value -> STR .)
+    $end            reduce using rule 12 (value -> STR .)
+    RIGHT_PAR       reduce using rule 12 (value -> STR .)
+    LEFT_PAR        shift and go to state 11
+
+
+state 3
+
+    (13) value -> NULL .
+
+    RIGHT_BRACE     reduce using rule 13 (value -> NULL .)
+    COMMA           reduce using rule 13 (value -> NULL .)
+    RIGHT_BRACK     reduce using rule 13 (value -> NULL .)
+    $end            reduce using rule 13 (value -> NULL .)
+    RIGHT_PAR       reduce using rule 13 (value -> NULL .)
+
+
+state 4
+
+    (0) S' -> value .
+
+
+
+state 5
+
+    (1) value -> LEFT_BRACE . RIGHT_BRACE
+    (2) value -> LEFT_BRACE . members RIGHT_BRACE
+    (16) members -> . members COMMA STR COLON value
+    (17) members -> . members COMMA ID COLON value
+    (18) members -> . STR COLON value
+    (19) members -> . ID COLON value
+
+    RIGHT_BRACE     shift and go to state 13
+    STR             shift and go to state 14
+    ID              shift and go to state 15
+
+    members                        shift and go to state 12
+
+state 6
+
+    (11) value -> NUM .
+
+    RIGHT_BRACE     reduce using rule 11 (value -> NUM .)
+    COMMA           reduce using rule 11 (value -> NUM .)
+    RIGHT_BRACK     reduce using rule 11 (value -> NUM .)
+    $end            reduce using rule 11 (value -> NUM .)
+    RIGHT_PAR       reduce using rule 11 (value -> NUM .)
+
+
+state 7
+
+    (5) value -> BINDINGS . EQUALS value
+    (6) value -> BINDINGS .
+
+    EQUALS          shift and go to state 16
+    RIGHT_BRACE     reduce using rule 6 (value -> BINDINGS .)
+    COMMA           reduce using rule 6 (value -> BINDINGS .)
+    RIGHT_BRACK     reduce using rule 6 (value -> BINDINGS .)
+    $end            reduce using rule 6 (value -> BINDINGS .)
+    RIGHT_PAR       reduce using rule 6 (value -> BINDINGS .)
+
+
+state 8
+
+    (3) value -> LEFT_BRACK . RIGHT_BRACK
+    (4) value -> LEFT_BRACK . elements RIGHT_BRACK
+    (20) elements -> . value
+    (21) elements -> . elements COMMA value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    RIGHT_BRACK     shift and go to state 17
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    elements                       shift and go to state 19
+    value                          shift and go to state 18
+
+state 9
+
+    (9) value -> TRUE .
+
+    RIGHT_BRACE     reduce using rule 9 (value -> TRUE .)
+    COMMA           reduce using rule 9 (value -> TRUE .)
+    RIGHT_BRACK     reduce using rule 9 (value -> TRUE .)
+    $end            reduce using rule 9 (value -> TRUE .)
+    RIGHT_PAR       reduce using rule 9 (value -> TRUE .)
+
+
+state 10
+
+    (7) value -> ID . LEFT_PAR RIGHT_PAR
+    (8) value -> ID . LEFT_PAR elements RIGHT_PAR
+
+    LEFT_PAR        shift and go to state 20
+
+
+state 11
+
+    (14) value -> STR LEFT_PAR . RIGHT_PAR
+    (15) value -> STR LEFT_PAR . elements RIGHT_PAR
+    (20) elements -> . value
+    (21) elements -> . elements COMMA value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    RIGHT_PAR       shift and go to state 22
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    elements                       shift and go to state 21
+    value                          shift and go to state 18
+
+state 12
+
+    (2) value -> LEFT_BRACE members . RIGHT_BRACE
+    (16) members -> members . COMMA STR COLON value
+    (17) members -> members . COMMA ID COLON value
+
+    RIGHT_BRACE     shift and go to state 23
+    COMMA           shift and go to state 24
+
+
+state 13
+
+    (1) value -> LEFT_BRACE RIGHT_BRACE .
+
+    RIGHT_BRACE     reduce using rule 1 (value -> LEFT_BRACE RIGHT_BRACE .)
+    COMMA           reduce using rule 1 (value -> LEFT_BRACE RIGHT_BRACE .)
+    RIGHT_BRACK     reduce using rule 1 (value -> LEFT_BRACE RIGHT_BRACE .)
+    $end            reduce using rule 1 (value -> LEFT_BRACE RIGHT_BRACE .)
+    RIGHT_PAR       reduce using rule 1 (value -> LEFT_BRACE RIGHT_BRACE .)
+
+
+state 14
+
+    (18) members -> STR . COLON value
+
+    COLON           shift and go to state 25
+
+
+state 15
+
+    (19) members -> ID . COLON value
+
+    COLON           shift and go to state 26
+
+
+state 16
+
+    (5) value -> BINDINGS EQUALS . value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    value                          shift and go to state 27
+
+state 17
+
+    (3) value -> LEFT_BRACK RIGHT_BRACK .
+
+    RIGHT_BRACE     reduce using rule 3 (value -> LEFT_BRACK RIGHT_BRACK .)
+    COMMA           reduce using rule 3 (value -> LEFT_BRACK RIGHT_BRACK .)
+    RIGHT_BRACK     reduce using rule 3 (value -> LEFT_BRACK RIGHT_BRACK .)
+    $end            reduce using rule 3 (value -> LEFT_BRACK RIGHT_BRACK .)
+    RIGHT_PAR       reduce using rule 3 (value -> LEFT_BRACK RIGHT_BRACK .)
+
+
+state 18
+
+    (20) elements -> value .
+
+    RIGHT_BRACK     reduce using rule 20 (elements -> value .)
+    COMMA           reduce using rule 20 (elements -> value .)
+    RIGHT_PAR       reduce using rule 20 (elements -> value .)
+
+
+state 19
+
+    (4) value -> LEFT_BRACK elements . RIGHT_BRACK
+    (21) elements -> elements . COMMA value
+
+    RIGHT_BRACK     shift and go to state 28
+    COMMA           shift and go to state 29
+
+
+state 20
+
+    (7) value -> ID LEFT_PAR . RIGHT_PAR
+    (8) value -> ID LEFT_PAR . elements RIGHT_PAR
+    (20) elements -> . value
+    (21) elements -> . elements COMMA value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    RIGHT_PAR       shift and go to state 31
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    elements                       shift and go to state 30
+    value                          shift and go to state 18
+
+state 21
+
+    (15) value -> STR LEFT_PAR elements . RIGHT_PAR
+    (21) elements -> elements . COMMA value
+
+    RIGHT_PAR       shift and go to state 32
+    COMMA           shift and go to state 29
+
+
+state 22
+
+    (14) value -> STR LEFT_PAR RIGHT_PAR .
+
+    RIGHT_BRACE     reduce using rule 14 (value -> STR LEFT_PAR RIGHT_PAR .)
+    COMMA           reduce using rule 14 (value -> STR LEFT_PAR RIGHT_PAR .)
+    RIGHT_BRACK     reduce using rule 14 (value -> STR LEFT_PAR RIGHT_PAR .)
+    $end            reduce using rule 14 (value -> STR LEFT_PAR RIGHT_PAR .)
+    RIGHT_PAR       reduce using rule 14 (value -> STR LEFT_PAR RIGHT_PAR .)
+
+
+state 23
+
+    (2) value -> LEFT_BRACE members RIGHT_BRACE .
+
+    RIGHT_BRACE     reduce using rule 2 (value -> LEFT_BRACE members RIGHT_BRACE .)
+    COMMA           reduce using rule 2 (value -> LEFT_BRACE members RIGHT_BRACE .)
+    RIGHT_BRACK     reduce using rule 2 (value -> LEFT_BRACE members RIGHT_BRACE .)
+    $end            reduce using rule 2 (value -> LEFT_BRACE members RIGHT_BRACE .)
+    RIGHT_PAR       reduce using rule 2 (value -> LEFT_BRACE members RIGHT_BRACE .)
+
+
+state 24
+
+    (16) members -> members COMMA . STR COLON value
+    (17) members -> members COMMA . ID COLON value
+
+    STR             shift and go to state 33
+    ID              shift and go to state 34
+
+
+state 25
+
+    (18) members -> STR COLON . value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    value                          shift and go to state 35
+
+state 26
+
+    (19) members -> ID COLON . value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    value                          shift and go to state 36
+
+state 27
+
+    (5) value -> BINDINGS EQUALS value .
+
+    RIGHT_BRACE     reduce using rule 5 (value -> BINDINGS EQUALS value .)
+    COMMA           reduce using rule 5 (value -> BINDINGS EQUALS value .)
+    RIGHT_BRACK     reduce using rule 5 (value -> BINDINGS EQUALS value .)
+    $end            reduce using rule 5 (value -> BINDINGS EQUALS value .)
+    RIGHT_PAR       reduce using rule 5 (value -> BINDINGS EQUALS value .)
+
+
+state 28
+
+    (4) value -> LEFT_BRACK elements RIGHT_BRACK .
+
+    RIGHT_BRACE     reduce using rule 4 (value -> LEFT_BRACK elements RIGHT_BRACK .)
+    COMMA           reduce using rule 4 (value -> LEFT_BRACK elements RIGHT_BRACK .)
+    RIGHT_BRACK     reduce using rule 4 (value -> LEFT_BRACK elements RIGHT_BRACK .)
+    $end            reduce using rule 4 (value -> LEFT_BRACK elements RIGHT_BRACK .)
+    RIGHT_PAR       reduce using rule 4 (value -> LEFT_BRACK elements RIGHT_BRACK .)
+
+
+state 29
+
+    (21) elements -> elements COMMA . value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    value                          shift and go to state 37
+
+state 30
+
+    (8) value -> ID LEFT_PAR elements . RIGHT_PAR
+    (21) elements -> elements . COMMA value
+
+    RIGHT_PAR       shift and go to state 38
+    COMMA           shift and go to state 29
+
+
+state 31
+
+    (7) value -> ID LEFT_PAR RIGHT_PAR .
+
+    RIGHT_BRACE     reduce using rule 7 (value -> ID LEFT_PAR RIGHT_PAR .)
+    COMMA           reduce using rule 7 (value -> ID LEFT_PAR RIGHT_PAR .)
+    RIGHT_BRACK     reduce using rule 7 (value -> ID LEFT_PAR RIGHT_PAR .)
+    $end            reduce using rule 7 (value -> ID LEFT_PAR RIGHT_PAR .)
+    RIGHT_PAR       reduce using rule 7 (value -> ID LEFT_PAR RIGHT_PAR .)
+
+
+state 32
+
+    (15) value -> STR LEFT_PAR elements RIGHT_PAR .
+
+    RIGHT_BRACE     reduce using rule 15 (value -> STR LEFT_PAR elements RIGHT_PAR .)
+    COMMA           reduce using rule 15 (value -> STR LEFT_PAR elements RIGHT_PAR .)
+    RIGHT_BRACK     reduce using rule 15 (value -> STR LEFT_PAR elements RIGHT_PAR .)
+    $end            reduce using rule 15 (value -> STR LEFT_PAR elements RIGHT_PAR .)
+    RIGHT_PAR       reduce using rule 15 (value -> STR LEFT_PAR elements RIGHT_PAR .)
+
+
+state 33
+
+    (16) members -> members COMMA STR . COLON value
+
+    COLON           shift and go to state 39
+
+
+state 34
+
+    (17) members -> members COMMA ID . COLON value
+
+    COLON           shift and go to state 40
+
+
+state 35
+
+    (18) members -> STR COLON value .
+
+    RIGHT_BRACE     reduce using rule 18 (members -> STR COLON value .)
+    COMMA           reduce using rule 18 (members -> STR COLON value .)
+
+
+state 36
+
+    (19) members -> ID COLON value .
+
+    RIGHT_BRACE     reduce using rule 19 (members -> ID COLON value .)
+    COMMA           reduce using rule 19 (members -> ID COLON value .)
+
+
+state 37
+
+    (21) elements -> elements COMMA value .
+
+    RIGHT_BRACK     reduce using rule 21 (elements -> elements COMMA value .)
+    COMMA           reduce using rule 21 (elements -> elements COMMA value .)
+    RIGHT_PAR       reduce using rule 21 (elements -> elements COMMA value .)
+
+
+state 38
+
+    (8) value -> ID LEFT_PAR elements RIGHT_PAR .
+
+    RIGHT_BRACE     reduce using rule 8 (value -> ID LEFT_PAR elements RIGHT_PAR .)
+    COMMA           reduce using rule 8 (value -> ID LEFT_PAR elements RIGHT_PAR .)
+    RIGHT_BRACK     reduce using rule 8 (value -> ID LEFT_PAR elements RIGHT_PAR .)
+    $end            reduce using rule 8 (value -> ID LEFT_PAR elements RIGHT_PAR .)
+    RIGHT_PAR       reduce using rule 8 (value -> ID LEFT_PAR elements RIGHT_PAR .)
+
+
+state 39
+
+    (16) members -> members COMMA STR COLON . value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    value                          shift and go to state 41
+
+state 40
+
+    (17) members -> members COMMA ID COLON . value
+    (1) value -> . LEFT_BRACE RIGHT_BRACE
+    (2) value -> . LEFT_BRACE members RIGHT_BRACE
+    (3) value -> . LEFT_BRACK RIGHT_BRACK
+    (4) value -> . LEFT_BRACK elements RIGHT_BRACK
+    (5) value -> . BINDINGS EQUALS value
+    (6) value -> . BINDINGS
+    (7) value -> . ID LEFT_PAR RIGHT_PAR
+    (8) value -> . ID LEFT_PAR elements RIGHT_PAR
+    (9) value -> . TRUE
+    (10) value -> . FALSE
+    (11) value -> . NUM
+    (12) value -> . STR
+    (13) value -> . NULL
+    (14) value -> . STR LEFT_PAR RIGHT_PAR
+    (15) value -> . STR LEFT_PAR elements RIGHT_PAR
+
+    LEFT_BRACE      shift and go to state 5
+    LEFT_BRACK      shift and go to state 8
+    BINDINGS        shift and go to state 7
+    ID              shift and go to state 10
+    TRUE            shift and go to state 9
+    FALSE           shift and go to state 1
+    NUM             shift and go to state 6
+    STR             shift and go to state 2
+    NULL            shift and go to state 3
+
+    value                          shift and go to state 42
+
+state 41
+
+    (16) members -> members COMMA STR COLON value .
+
+    RIGHT_BRACE     reduce using rule 16 (members -> members COMMA STR COLON value .)
+    COMMA           reduce using rule 16 (members -> members COMMA STR COLON value .)
+
+
+state 42
+
+    (17) members -> members COMMA ID COLON value .
+
+    RIGHT_BRACE     reduce using rule 17 (members -> members COMMA ID COLON value .)
+    COMMA           reduce using rule 17 (members -> members COMMA ID COLON value .)
+
