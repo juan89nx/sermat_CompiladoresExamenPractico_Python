@@ -1,22 +1,21 @@
-import construcciones
-import sermatLexer
+#import construcciones
+#import sermatLexer
 import sermatParserCup
-import ply_LexCup.yacc as yacc
+
 
 
 #construcciones = construcciones()
 #sermatParser = sermatParserCup()
 
-lexer = sermatLexer.SermatLexer()
-lexer.buildLexer()
-print lexer.tokenize("a")
+#lexer = sermatLexer.SermatLexer()
+#lexer.buildLexer()
+#print lexer.tokenize("a")
 
 
 parser = sermatParserCup.SermatParserCup()
 #parser = yacc.yacc()
 
-toParse = 'a'
-parser.parsear(toParse)
+parser.parsear("ab")
 
 
 

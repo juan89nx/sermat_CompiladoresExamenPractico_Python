@@ -7,24 +7,26 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 class Construcciones:
     def __init__(self):
         # When a new function is defined, it must be added in the following list
-        self.listaFuncionesExistentes = {
+        self.listaDeConstrucciones = {
             "suma": Suma(),
             "producto": Producto(),
             "tuple": Tuple()
         }
 
-    def agregarFuncionAlistaFuncionesExistentes(self):
-        self.listaFuncionesExistentes.append()
+    def addToListaDeConstrucciones(self):
+        self.listaConstrucciones.append()
 
-    def construirEnBaseAFuncion(self, funcionId, listaAtributosParaFuncion):
-        if (self.listaFuncionesExistentes.__contains__(self.funcionId)):
-            # Magic to call functions - globals
-            if (IConstruction.id_Construction == funcionId):
-                retornoDeFuncion = IConstruction.materialize(listaAtributosParaFuncion)
+    def construirEnBaseAFuncion(self, id_Construction, listaAtributosParaConstruccion):
+        if (self.listaDeConstrucciones.has_key(id_Construction) ):
+            construction = self.listaDeConstrucciones[id_Construction]
+
+            retornoDeConstruccion = construction.materialize(listaAtributosParaConstruccion)
+                # Magic to call functions - globals
                 # retornoDeFuncion = globals()[funcionId](self.listaAtributosParaFuncion)
-                return retornoDeFuncion
-            else:
-             return "FunctionID doesn't exist"
+            print "Retorno de Construccion: " % retornoDeConstruccion
+            return retornoDeConstruccion
+        else:
+             return "id_Construction doesn't exist"
 
 
 class IConstruction(object):
