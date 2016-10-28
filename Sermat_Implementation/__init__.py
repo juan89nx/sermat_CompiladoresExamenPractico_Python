@@ -15,7 +15,7 @@ import sermatParserCup
 parser = sermatParserCup.SermatParserCup()
 #parser = yacc.yacc()
 
-parser.parsear("ab")
+parser.parsear("{x:tuple(1,2)}")
 
 
 

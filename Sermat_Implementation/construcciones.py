@@ -19,11 +19,7 @@ class Construcciones:
     def construirEnBaseAFuncion(self, id_Construction, listaAtributosParaConstruccion):
         if (self.listaDeConstrucciones.has_key(id_Construction) ):
             construction = self.listaDeConstrucciones[id_Construction]
-
             retornoDeConstruccion = construction.materialize(listaAtributosParaConstruccion)
-                # Magic to call functions - globals
-                # retornoDeFuncion = globals()[funcionId](self.listaAtributosParaFuncion)
-            print "Retorno de Construccion: " % retornoDeConstruccion
             return retornoDeConstruccion
         else:
              return "id_Construction doesn't exist"
@@ -47,7 +43,7 @@ class IConstruction(object):
 
 class Suma(IConstruction):
     def __init__(self):
-        Suma.__init__(self)
+        IConstruction.__init__(self)
 
     @property
     def id_Construction(self):
@@ -66,7 +62,7 @@ class Suma(IConstruction):
 
 class Producto(IConstruction):
     def __init__(self):
-        Suma.__init__(self)
+        IConstruction.__init__(self)
 
     @property
     def id_Construction(self):
@@ -88,7 +84,7 @@ class Producto(IConstruction):
 
 class Tuple(IConstruction):
     def __init__(self):
-        Suma.__init__(self)
+        IConstruction.__init__(self)
 
     @property
     def id_Construction(self):
