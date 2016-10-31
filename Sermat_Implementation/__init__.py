@@ -13,24 +13,11 @@ import sermatParserCup
 
 
 parser = sermatParserCup.SermatParserCup()
-#parser = yacc.yacc()
 
-parser.parsear("{x:tuple(1,2)}")
+#lo meto en el list de bingigs con el id que viene.
 
-
-
-'''
-while True:
-    try:
-        s = raw_input('Entry > ')  # use input() on Python 3
-        result = parser.parse(s)
-        print "Parser Result:"
-        print(result)
-        # print "bindingsList:"
-        # print bindingsList
-        bindingsList = {}
-    # except Exception:
-    #    print "You need to type a valid enter!"
-    except EOFError:
-        break
-'''
+#parser.parsear("{x:tuple(1,2)}")
+#parser.parsear('{ idObject1: [$id1=1, $id2=2, suma($id1, $id2, 3)], "idObject2StrWithAnotherObject": [{ idObject3Anidado: [3,4] }, "elem2", true, [ ] ], "idObject4":[true, false, null, 2, "SoyString"]  }')
+#parser.parsear("{idObject1:[$id1=1, $id2=5, suma($id1, $id2, 3)]}")
+#parser.parsear("{idObject1:[$id1=2, suma(5,$id1)]}")
+#parser.parsear("$id1=[$id1]")

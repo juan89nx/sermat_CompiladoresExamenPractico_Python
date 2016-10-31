@@ -136,10 +136,8 @@ def p_value(v):
         v[0] = v[3]
         v.parser.sermat.bindingsList[v[1]] = v[3]
     elif (v[2] == '(' and v[3]== ')') :
-        #v[0] = construcciones.construirEnBaseAFuncion(v[1],[])
         v[0] = v.parser.sermat.constructions.construirEnBaseAFuncion(v[1],[])
     elif (v[2] == '(' and v[4]== ')') :
-        #v[0] = construcciones.constrirEnBaseAFuncion(v[1],v[3])
         v[0] = v.parser.sermat.constructions.construirEnBaseAFuncion(v[1], v[3])
 
 def p_value_boolNumStrNull(v):
@@ -201,38 +199,16 @@ parser = yacc.yacc()
 
 class SermatParserCup:
     def __init__(self):
-        #self.lex = sermatLexer.SermatLexer()
-        #self.parser = yacc.yacc()
         self.constructions = construcciones.Construcciones()
-        #self.c = construcciones.Construcciones()
         self.bindingsList = {}
-        #self.lex.buildLexer()
-        #self.tokens = self.lex.tokens #sermatLexer.SermatLexer().tokens
-
-    #par = yacc.yacc()
-    #lex = sermatLexer.SermatLexer()
-    #lex.buildLexer()
-    #tokens = lex.tokens
-    #tokens = sermatLexer.SermatLexer.tokens
-    #print tokens
-    #construcciones = construcciones.Construcciones()
-
-
-    #parser = yacc.yacc()
 
     def parsear(self, entrada):
         global parser
         parser.sermat = self
         result = parser.parse(entrada)
         parser.sermat = None
-            #parser.parse(entrada)
         print "Parser Result:"
         print(result)
-        # print "bindingsList:"
-        # print bindingsList
-        bindingsList = {}
-        # except Exception:
-        #    print "You need to type a valid enter!"
         return result
 
 '''
