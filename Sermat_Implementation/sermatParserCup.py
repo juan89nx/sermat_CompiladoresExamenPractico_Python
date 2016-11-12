@@ -2,10 +2,10 @@
 # July 2016
 # Get the token map from the lexer.
 
-#import sermatLexer
 import construcciones
 import ply_LexCup.lex as lex
 import ply_LexCup.yacc as yacc
+
 
 tokens = (
     'EQUALS',
@@ -109,37 +109,6 @@ precedence = (
     ('RIGHT_BRACK', 'COMMA'),
     )
 
-# for storing bindings variables
-#bindingsList = {}
-
-def p_value(v):
-    '''value : LEFT_BRACE RIGHT_BRACE
-             | LEFT_BRACE members RIGHT_BRACE
-             | LEFT_BRACK RIGHT_BRACK
-             | LEFT_BRACK elements RIGHT_BRACK
-             | BINDINGS EQUALS value
-             | BINDINGS
-             | ID LEFT_PAR RIGHT_PAR
-             | ID LEFT_PAR elements RIGHT_PAR'''
-    #global bindingsList
-    if (v[1] == '{' and v[2] == '}') :
-        v[0] = {}
-    elif (v[1] == '{' and v[3]  == '}'):
-        v[0] = v[2]
-    elif (v[1] == '[' and v[2] == ']') :
-        v[0] = []
-    elif (v[1] == '[' and v[3]  == ']'):
-        v[0] = v[2]
-    elif (len(v) == 2):
-        v[0] = v.parser.sermat.bindingsList[v[1]]
-    elif (v[2] == '=' and len(v)==4) :
-        v[0] = v[3]
-        v.parser.sermat.bindingsList[v[1]] = v[3]
-    elif (v[2] == '(' and v[3]== ')') :
-        v[0] = v.parser.sermat.constructions.construirEnBaseAFuncion(v[1],[])
-    elif (v[2] == '(' and v[4]== ')') :
-        v[0] = v.parser.sermat.constructions.construirEnBaseAFuncion(v[1], v[3])
-
 def p_value_boolNumStrNull(v):
     '''value : TRUE
              | FALSE
@@ -148,48 +117,126 @@ def p_value_boolNumStrNull(v):
              | NULL'''
     v[0] = v[1]
 
+def p_value_bind(p):
+    '''value : BINDINGS'''
+    p[0] = p.parser.sermat.bindingsList[p[1]]
 
-def p_value_str_rules(v):
-    '''value : STR LEFT_PAR  RIGHT_PAR
-             | STR LEFT_PAR elements RIGHT_PAR'''
-    if (v[2]=="(" and v[3]==")"):
-        v[0] = []
-        #v[0] = construcciones.construirEnBaseAFuncion(v[1],[])
-        v[0] = v.parser.sermat.constructions.construirEnBaseAFuncion(v[1],[])
-    elif (len(v)==5):
-        #v[0] = construcciones.construirEnBaseAFuncion(v[1],v[3])
-        v[0] = v.parser.sermat.constructions.construirEnBaseAFuncion(v[1],v[3])
+def p_value_obj0(v):
+    '''value : obj0 RIGHT_BRACE'''
+    v[0]= v[1]
 
-def p_members_mem_str_val(m):
-        'members : members COMMA STR COLON value'
-        m[0] = m[1]
-        m[0][m[3]] = m[5]
+def p_value_obj1(v):
+    '''value : obj1 RIGHT_BRACE'''
+    v[0] = v[1]
 
-def p_members_mem_id_val(m):
-        'members : members COMMA ID COLON value'
-        if(m[2]=="," and m[4]== ":"):
-            m[0] = m[1]
-            m[0][m[3]] = m[5]
+def p_value_array0(v):
+    '''value : array0 RIGHT_BRACK'''
+    v[0] =  v[1]
 
-def p_members_str_val(m):
-        'members : STR COLON value'
-        if(m[2]==':' and type(m[1]) == type(" ")):
-            m[0] = {}
-            m[0][m[1]] = m[3]
+def p_value_array1(v):
+    'value : array1 RIGHT_BRACK'
+    v[0] = v[1]
 
-def p_members_id_val(m):
-        'members : ID COLON value'
-        m[0] = {}
-        m[0][m[1]] = m[3]
+def p_value_cons0(v):
+    'value : cons0 RIGHT_PAR'
+    v[0] = v[1]
+    #construcciones.Point2D_Construction.materialize(v[0][0], v[0][1])
+    v[0]= v.parser.sermat.constructions.construirEnBaseAFuncion_Materialize(v[0][0], v[0][1], v[0][2])
+    #[id_Funcion, instancia, listaDeValores]
 
-def p_elements(e):
-    '''elements : value
-                | elements COMMA value'''
-    if (len(e)==4) :
-        e[0] = e[1]
-        e[0].append(e[3])
+def p_value_cons1(v):
+    'value : cons1 RIGHT_PAR'
+    v[0] = v[1]
+    v[0] = v.parser.sermat.constructions.construirEnBaseAFuncion_Materialize(v[0][0], v[0][1], v[0][2])
+
+##########################################################################
+
+def p_obj0(obj0):
+    '''obj0 : LEFT_BRACE
+            | BINDINGS EQUALS LEFT_BRACE'''
+    if(obj0[1] == "{"):
+        obj0[0] = {}
+    elif (obj0[2] == "="):
+        obj0[0] = obj0.parser.sermat.bindingsList[obj0[1]] = {}
+
+def p_obj1_A(obj1):
+    '''obj1 : obj0 ID COLON value'''
+    obj1[0] = obj1[1]
+    obj1[0][obj1[2]]= obj1[4]
+
+def p_obj1_B(obj1):
+    '''obj1 : obj0 STR COLON value'''
+    obj1[0] = obj1[1]
+    obj1[0][obj1[2]]= obj1[4]
+
+def p_obj1_C(obj1):
+    '''obj1 : obj1 COMMA ID COLON value'''
+    obj1[0] = obj1[1]
+    obj1[0][obj1[3]]= obj1[5]
+
+def p_obj1_D(obj1):
+    '''obj1 : obj1 COMMA STR COLON value'''
+    obj1[0] = obj1[1]
+    obj1[0][obj1[3]]= obj1[5]
+
+
+def p_array0(array0):
+    '''array0 : LEFT_BRACK
+              | BINDINGS EQUALS LEFT_BRACK'''
+    if (array0[1] == "["):
+        array0[0] = []
     else:
-        e[0] = [e[1]]
+        array0[0] = array0.parser.sermat.bindingsList[array0[1]] = []
+
+def p_array1_COMMA(array1):
+    'array1 : array1 COMMA value'
+    array1[0] = array1[1]
+    array1[0].append(array1[3])
+
+def p_array1(array1):
+    'array1 : array0 value'
+    if(len(array1) == 3 ):
+        array1[0] = array1[1]
+        array1[0].append(array1[2])
+
+
+
+def p_cons0_ID(c): ##>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>REVISAR
+    '''cons0 : BINDINGS EQUALS ID LEFT_PAR
+             | ID LEFT_PAR'''
+    if(c[2]== "="):
+        instancia = c.parser.sermat.constructions.devolverInstanciaSiExiste(c[3])
+        c[0] = [c[3],instancia, []] #id_Funcion, instancia, listaAtributos
+        #Agrego a bindigList
+        c.parser.sermat.bindingsList[c[1]] = instancia
+    elif(c[2] == "("):
+        instancia = c.parser.sermat.constructions.devolverInstanciaSiExiste(c[1])
+        c[0] = [c[1],instancia, []] #id_Funcion, instancia, listaAtributos
+
+
+def p_cons0_STR(c): #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>REVISAR
+    '''cons0 : BINDINGS EQUALS STR LEFT_PAR
+             | STR LEFT_PAR'''
+    if (c[2] == "="):
+        instancia = c.parser.sermat.constructions.devolverInstanciaSiExiste(c[3])
+        c[0] = [c[3], instancia, []]  # id_Funcion, instancia, listaAtributos
+        # Agrego a bindigList
+        c.parser.sermat.bindingsList[c[1]] = instancia
+    elif (c[2] == "("):
+        instancia = c.parser.sermat.constructions.devolverInstanciaSiExiste(c[1])
+        c[0] = [c[1], instancia, []]  # id_Funcion, instancia, listaAtributos
+
+def p_cons1(c):
+    '''cons1 : cons1 COMMA value
+             | cons0 value'''
+    if(c[2] == ","):
+        c[0] = c[1]
+        c[0][2].append(c[3])
+    else:
+        c[0] = c[1]
+        c[0][2].append(c[2])
+
+
 
 def p_error(p):
     print("Syntax error at '%s'" % p.value)
@@ -209,24 +256,17 @@ class SermatParserCup:
         parser.sermat = None
         print "Parser Result:"
         print(result)
+        print "bindingList:"
+        print self.bindingsList
         return result
 
-'''
-    Lex.buildLexer()
-    parser = yacc.yacc()
-
-
-    while True:
-        try:
-            s = raw_input('Entry > ') # use input() on Python 3
-            result = parser.parse(s)
-            print "Parser Result:"
-            print(result)
-            #print "bindingsList:"
-            #print bindingsList
-            bindingsList = {}
-        #except Exception:
-        #    print "You need to type a valid enter!"
-        except EOFError:
-            break
-'''
+    def serialize(self, obj, visited=None):
+        if not visited:
+            visited = []
+        #TODO serialize
+        if obj is None:
+            return "null"
+        elif obj is True:
+            return "true"
+        else:
+            pass
