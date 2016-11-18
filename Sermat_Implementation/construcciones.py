@@ -63,6 +63,9 @@ class Point2D_Construction(IConstruction):
     def __init__(self):
         IConstruction.__init__(self)
 
+    def type(self):
+        return Point2D
+
     @property
     def id_Construction(self):
         return "Point2D"
@@ -84,6 +87,9 @@ class Suma(object):
 class Suma_Construction(IConstruction):
     def __init__(self):
         IConstruction.__init__(self)
+
+    def type(self):
+        return Suma
 
     @property
     def id_Construction(self):
@@ -115,6 +121,9 @@ class Producto_Construction(IConstruction):
     def __init__(self):
         IConstruction.__init__(self)
 
+    def type(self):
+        return Producto
+
     @property
     def id_Construction(self):
         return "Producto"
@@ -136,6 +145,9 @@ class Tuple(object):
 class Tuple_Construction(IConstruction):
     def __init__(self):
         IConstruction.__init__(self)
+
+    def type(self):
+        return Tuple
 
     @property
     def id_Construction(self):

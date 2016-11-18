@@ -268,5 +268,26 @@ class SermatParserCup:
             return "null"
         elif obj is True:
             return "true"
-        else:
-            pass
+        elif obj is False:
+            return "false"
+        elif type(obj) in [float, int]:
+            return str(obj)
+        elif type(obj) is float("inf"):
+            return "Infinity"
+        elif type(obj) is float("NaN"):
+            return "NaN"
+        elif type(obj) is str:
+            return ""+obj
+        elif type(obj) is list:
+            if(obj not in visited):
+                visited.append(obj)
+                return "[%s]" % ",".join( self.serialize(elem, visited) for elem in obj)
+            else:
+                return "Error"
+        elif type(obj) is dict:
+            #Recorrer por comprension  tengo que usar iterItems, para que e recorra todo el dict.
+            if not(obj in visited):
+                visited.append(obj)
+                return '<%s>' % ",".join(self.serialize( str ((key, value)), visited) for (key, value) in obj.iteritems() )
+
+                #  pairs = [(v, k) for (k, v) in d.iteritems()]
