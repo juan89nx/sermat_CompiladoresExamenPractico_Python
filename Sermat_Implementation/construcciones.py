@@ -2,11 +2,6 @@
 # July 2016
 
 from abc import ABCMeta, abstractmethod, abstractproperty
-#Construir instamncia de clase sin iniciarla!!!
-#Se debe modificar la gramatica para permitir esto con las construcciones
-#__new__ se utiliza para crar una instancia
-#despues se usa init para cuando se la quiere iniciar
-# -> When to use __new__ vs __init__
 
 class Construcciones:
     def __init__(self):
@@ -35,6 +30,16 @@ class Construcciones:
              return "id_Construction doesn't exist"
 
 
+    def serializeGenerico(self, obj):
+        typeSerializer = type(obj)
+        id_construction = typeSerializer.myTypeInString(obj)
+        if ( self.listaDeConstrucciones.has_key(id_construction) ):
+            serializer = self.listaDeConstrucciones[id_construction]
+            retornoDeSerializacion = serializer.serialize(obj)
+            return str(id_construction)+retornoDeSerializacion
+        else:
+            return "Construction doesn't exist"
+
 class IConstruction(object):
     __metaclass__ = ABCMeta
 
@@ -59,6 +64,9 @@ class Point2D(object):
         self.x = x
         self.y = y
 
+    def myTypeInString(self):
+        return "Point2D"
+
 class Point2D_Construction(IConstruction):
     def __init__(self):
         IConstruction.__init__(self)
@@ -71,7 +79,8 @@ class Point2D_Construction(IConstruction):
         return "Point2D"
 
     def serialize(self, objeto):
-        return [self.x, self.y]
+        return [objeto.x, objeto.y]
+        #return [self.x, self.y]
 
     def materialize_new(self):
         return Point2D.__new__(Point2D)
@@ -84,19 +93,22 @@ class Suma(object):
     def __init__(self, listaValores):
         self.listaValores = listaValores
 
+    def myTypeInString(self):
+        return "Suma"
+
 class Suma_Construction(IConstruction):
     def __init__(self):
         IConstruction.__init__(self)
-
-    def type(self):
-        return Suma
 
     @property
     def id_Construction(self):
         return "Suma"
 
-    def serialize(self, objeto):
-        return self.listaValores
+    def serialize(self, obj):
+        return "(%s)" % ",".join(str(valor) for valor in obj.listaValores)
+        #return obj.listaValores
+ #       return self.listaValores
+
 
     def materialize_new(self):
         return Suma.__new__(Suma)
@@ -108,14 +120,10 @@ class Suma_Construction(IConstruction):
 
 class Producto(object):
     def __init__(self, listaValores):
-        if ((len(listaValores)) == 1):
-            self.valorFinal = listaValores[0]
-            return self.valorFinal
-        if ((len(listaValores)) > 1):
-            self.valorFinal = listaValores[0]
-            for i in range(1, len(listaValores)):
-                self.valorFinal = self.valorFinal * listaValores[i]
-            return self.valorFinal
+        self.listaValores = listaValores
+
+    def myTypeInString(self):
+        return "Producto"
 
 class Producto_Construction(IConstruction):
     def __init__(self):
@@ -129,7 +137,7 @@ class Producto_Construction(IConstruction):
         return "Producto"
 
     def serialize(self, objeto):
-        pass
+        return "(%s)" % ",".join(str(valor) for valor in objeto.listaValores)
 
     def materialize_new(self):
         return Producto.__new__(Producto)
@@ -140,7 +148,10 @@ class Producto_Construction(IConstruction):
 
 class Tuple(object):
     def __init__(self, listaValores):
-        return tuple(listaValores)
+        self.listaValores = listaValores
+
+    def myTypeInString(self):
+        return "Tuple"
 
 class Tuple_Construction(IConstruction):
     def __init__(self):
@@ -154,7 +165,7 @@ class Tuple_Construction(IConstruction):
         return "Tuple"
 
     def serialize(self, objeto):
-        pass
+        return "(%s)" % ",".join(str(valor) for valor in objeto.listaValores)
 
     def materialize_new(self):
         return Tuple.__new__(Tuple)

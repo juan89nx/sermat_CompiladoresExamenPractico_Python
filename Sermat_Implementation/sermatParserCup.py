@@ -1,7 +1,6 @@
 #Created by: Juan Perciante
 # July 2016
 # Get the token map from the lexer.
-
 import construcciones
 import ply_LexCup.lex as lex
 import ply_LexCup.yacc as yacc
@@ -237,7 +236,6 @@ def p_cons1(c):
         c[0][2].append(c[2])
 
 
-
 def p_error(p):
     print("Syntax error at '%s'" % p.value)
 
@@ -261,6 +259,8 @@ class SermatParserCup:
         return result
 
     def serialize(self, obj, visited=None):
+        #print 'A Serializar: %s' %type(obj)
+        print self.bindingsList
         if not visited:
             visited = []
         #TODO serialize
@@ -277,17 +277,20 @@ class SermatParserCup:
         elif type(obj) is float("NaN"):
             return "NaN"
         elif type(obj) is str:
-            return ""+obj
+            return '"'+obj.replace('"','\\"')+'"'
         elif type(obj) is list:
             if(obj not in visited):
                 visited.append(obj)
-                return "[%s]" % ",".join( self.serialize(elem, visited) for elem in obj)
+                self.bindingsList[obj[0]] =obj
+                return "[%s]" % ",".join(self.serialize(elem, visited) for elem in obj)
             else:
-                return "Error"
+                return "Error - Referencia Circular"
         elif type(obj) is dict:
-            #Recorrer por comprension  tengo que usar iterItems, para que e recorra todo el dict.
             if not(obj in visited):
                 visited.append(obj)
-                return '<%s>' % ",".join(self.serialize( str ((key, value)), visited) for (key, value) in obj.iteritems() )
-
-                #  pairs = [(v, k) for (k, v) in d.iteritems()]
+                #self.parser.sermat.bindingsList[obj[0]] = value
+                return "{ %s }" % ', '.join(['%s:%s' % (self.serialize(key), self.serialize(value)) for key, value in obj.iteritems()])
+            else:
+                return "Error - Referencia Circular"
+        elif isinstance(obj, object):
+            return self.constructions.serializeGenerico(obj)
