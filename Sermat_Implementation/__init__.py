@@ -15,14 +15,23 @@ parser = sermatParserCup.SermatParserCup()
 #parser.parsear("{idObject1:[$id1=[2], Suma(5,$id1)]}")
 #parser.parsear('{keyId:[$sum=Suma(2,3), 6, $sum]  }')
 
-#parser.parsear("$id=Suma(2,3,4,5)")
+print parser.serialize(parser.parsear("$id=Suma(2,3,4,5)"))
+
+
 
 dict = {'k1': 1, 'k2':2 }
 #for key,value in dict.iteritems():
 #    print (key, value)
 
-#dict['keyID']= '<construcciones.Suma object at 0x0000000002B8EEB8>'
 #serialize = parser.serialize(dict, [])
-serialize = parser.serialize([1,2,[3]], [])
-print "Serialize result:"
-print serialize
+#serialize = parser.serialize({'""': construcciones.Suma([2,3]), 'y':True}, [])
+a = []
+s = construcciones.Suma([2,3])
+a.append(s)
+a.append(s)
+
+
+serialize = parser.serialize(a , [])
+parser.parsear(serialize)
+#print "Serialize result:"
+#print serialize

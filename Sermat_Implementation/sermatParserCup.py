@@ -259,11 +259,9 @@ class SermatParserCup:
         return result
 
     def serialize(self, obj, visited=None):
-        #print 'A Serializar: %s' %type(obj)
         print self.bindingsList
         if not visited:
             visited = []
-        #TODO serialize
         if obj is None:
             return "null"
         elif obj is True:
@@ -278,19 +276,14 @@ class SermatParserCup:
             return "NaN"
         elif type(obj) is str:
             return '"'+obj.replace('"','\\"')+'"'
-        elif type(obj) is list:
-            if(obj not in visited):
-                visited.append(obj)
-                self.bindingsList[obj[0]] =obj
-                return "[%s]" % ",".join(self.serialize(elem, visited) for elem in obj)
+        elif obj in visited:
+            return "$%d" % visited.index(obj)
+        else:
+            visited.append(obj)
+            i = (len(visited)-1)
+            if type(obj) is list:
+                return  "$%d=[%s]" % (i ,",".join(self.serialize(elem, visited ) for elem in obj.__iter__() ))
+            elif type(obj) is dict:
+                return "$%d={%s}" % (i, ', '.join(['%s:%s' % (self.serialize(key, visited), self.serialize(value, visited)) for key, value in obj.iteritems()]))
             else:
-                return "Error - Referencia Circular"
-        elif type(obj) is dict:
-            if not(obj in visited):
-                visited.append(obj)
-                #self.parser.sermat.bindingsList[obj[0]] = value
-                return "{ %s }" % ', '.join(['%s:%s' % (self.serialize(key), self.serialize(value)) for key, value in obj.iteritems()])
-            else:
-                return "Error - Referencia Circular"
-        elif isinstance(obj, object):
-            return self.constructions.serializeGenerico(obj)
+                return "$%d=%s" % (i,self.constructions.serializeGenerico(obj))
