@@ -1,20 +1,17 @@
 # Created by: Juan Perciante
-# July 2016
+# December 2016
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 
 class Construcciones:
     def __init__(self):
-        # When a new function is defined, it must be added in the following list
+        # When a new Construction is defined, it must be added in the following list
         self.listaDeConstrucciones = {
             "Suma": Suma_Construction(),
             "Producto": Producto_Construction(),
             "Tuple": Tuple_Construction(),
             "Point2D": Point2D_Construction()
         }
-
-    def addToListaDeConstrucciones(self):
-        self.listaConstrucciones.append()
 
     def devolverInstanciaSiExiste(self, id_Construction):
         if (self.listaDeConstrucciones.has_key(id_Construction)):
@@ -79,15 +76,14 @@ class Point2D_Construction(IConstruction):
         return "Point2D"
 
     def serialize(self, objeto):
-        return [objeto.x, objeto.y]
-        #return [self.x, self.y]
+        return str((objeto.x, objeto.y))
 
     def materialize_new(self):
         return Point2D.__new__(Point2D)
 
     def materialize(self, obj, valores):
-        return Point2D.__init__(obj, valores[0], valores[1])
-
+        Point2D.__init__(obj, valores[0], valores[1])
+        return obj
 
 class Suma(object):
     def __init__(self, listaValores):
@@ -106,8 +102,6 @@ class Suma_Construction(IConstruction):
 
     def serialize(self, obj):
         return "(%s)" % ",".join(str(valor) for valor in obj.listaValores)
-        #return obj.listaValores
- #       return self.listaValores
 
 
     def materialize_new(self):
@@ -143,8 +137,8 @@ class Producto_Construction(IConstruction):
         return Producto.__new__(Producto)
 
     def materialize(self, obj, listaValores):
-        return Producto.__init__(obj, listaValores)
-
+        Producto.__init__(obj, listaValores)
+        return obj
 
 class Tuple(object):
     def __init__(self, listaValores):
@@ -171,4 +165,5 @@ class Tuple_Construction(IConstruction):
         return Tuple.__new__(Tuple)
 
     def materialize(self, obj, listaValores):
-        return Tuple.__init__(obj, listaValores)
+        Tuple.__init__(obj, listaValores)
+        return obj

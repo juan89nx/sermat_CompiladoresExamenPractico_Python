@@ -1,5 +1,5 @@
 #Created by: Juan Perciante
-# July 2016
+# December 2016
 # Get the token map from the lexer.
 import construcciones
 import ply_LexCup.lex as lex
@@ -40,10 +40,13 @@ def t_ID(t):
     r'[A-Z_a-z][\-\.A-Z_a-z0-9]*'
     if t.value == 'true':
         t.type = 'TRUE'
+        #t.type = True
     elif t.value == 'false':
         t.type = 'FALSE'
+        #t.type = False
     elif t.value == 'null':
         t.type = "NULL"
+        #t.type = None
     elif t.value == "NaN":
         t.type = "NUM"
         t.value = float("NaN")
@@ -139,7 +142,6 @@ def p_value_array1(v):
 def p_value_cons0(v):
     'value : cons0 RIGHT_PAR'
     v[0] = v[1]
-    #construcciones.Point2D_Construction.materialize(v[0][0], v[0][1])
     v[0]= v.parser.sermat.constructions.construirEnBaseAFuncion_Materialize(v[0][0], v[0][1], v[0][2])
     #[id_Funcion, instancia, listaDeValores]
 
@@ -252,14 +254,9 @@ class SermatParserCup:
         parser.sermat = self
         result = parser.parse(entrada)
         parser.sermat = None
-        print "Parser Result:"
-        print(result)
-        print "bindingList:"
-        print self.bindingsList
         return result
 
     def serialize(self, obj, visited=None):
-        print self.bindingsList
         if not visited:
             visited = []
         if obj is None:
